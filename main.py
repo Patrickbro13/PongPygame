@@ -97,24 +97,22 @@ class Pong:
         current_time = pygame.time.get_ticks()
 
         # 3
-        if current_time - self.score_time < 800:
+        if (current_time - self.score_time) < 800:
             num_3 = self.game_font.render("3", False, self.light_grey)
-            # print(num_3)
             self.screen.blit(num_3, (self.screen_width / 2 - 10, self.screen_height / 2 + 20))
+            # print(3)
 
         # 2
-        if current_time - self.score_time < 1600:
+        if (current_time - self.score_time) < 1600:
             num_2 = self.game_font.render("2", False, self.light_grey)
-            # print(num_2)
             self.screen.blit(num_2, (self.screen_width / 2 - 10, self.screen_height / 2 + 20))
 
         # 1
-        if current_time - self.score_time < 2400:
+        if (current_time - self.score_time) < 2400:
             num_1 = self.game_font.render("1", False, self.light_grey)
-            # print(num_1)
             self.screen.blit(num_1, (self.screen_width / 2 - 10, self.screen_height / 2 + 20))
 
-        if current_time - self.score_time < 2400:
+        if (current_time - self.score_time) < 2400:
             # making speeds 0 so ball won't move
             self.ball_x_speed = 0
             self.ball_y_speed = 0
