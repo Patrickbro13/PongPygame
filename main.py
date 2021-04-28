@@ -99,19 +99,19 @@ class Pong:
         # 3
         if current_time - self.score_time < 800:
             num_3 = self.game_font.render("3", False, self.light_grey)
-            print(3)
+            # print(num_3)
             self.screen.blit(num_3, (self.screen_width / 2 - 10, self.screen_height / 2 + 20))
 
         # 2
         if current_time - self.score_time < 1600:
             num_2 = self.game_font.render("2", False, self.light_grey)
-            print(2)
+            # print(num_2)
             self.screen.blit(num_2, (self.screen_width / 2 - 10, self.screen_height / 2 + 20))
 
         # 1
         if current_time - self.score_time < 2400:
             num_1 = self.game_font.render("1", False, self.light_grey)
-            print(1)
+            # print(num_1)
             self.screen.blit(num_1, (self.screen_width / 2 - 10, self.screen_height / 2 + 20))
 
         if current_time - self.score_time < 2400:
