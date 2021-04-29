@@ -97,22 +97,21 @@ class Pong:
         current_time = pygame.time.get_ticks()
 
         # 3
-        if (current_time - self.score_time) < 800:
+        if (current_time - self.score_time) < 1000:
             num_3 = self.game_font.render("3", False, self.light_grey)
             self.screen.blit(num_3, (self.screen_width / 2 - 10, self.screen_height / 2 + 20))
-            # print(3)
 
         # 2
-        if (current_time - self.score_time) < 1600:
+        elif (current_time - self.score_time) < 2000:
             num_2 = self.game_font.render("2", False, self.light_grey)
             self.screen.blit(num_2, (self.screen_width / 2 - 10, self.screen_height / 2 + 20))
 
         # 1
-        if (current_time - self.score_time) < 2400:
+        elif (current_time - self.score_time) < 3000:
             num_1 = self.game_font.render("1", False, self.light_grey)
             self.screen.blit(num_1, (self.screen_width / 2 - 10, self.screen_height / 2 + 20))
 
-        if (current_time - self.score_time) < 2400:
+        elif (current_time - self.score_time) < 3000:
             # making speeds 0 so ball won't move
             self.ball_x_speed = 0
             self.ball_y_speed = 0
@@ -154,14 +153,15 @@ while running:
             if event.key == pygame.K_DOWN:
                 pong.player_speed -= 7
 
-    if pong.score_time:
-        pong.ball_start()
+    pong.draw_objects()
     pong.ball_animation()
     pong.player_animation()
     pong.opponent_animation()
-    pong.draw_objects()
 
     pong.print_score()
+
+    if pong.score_time:
+        pong.ball_start()
 
     # Updating the entire window
     pygame.display.flip()
