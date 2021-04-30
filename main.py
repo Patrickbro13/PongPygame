@@ -1,38 +1,48 @@
-import random
-
 import pygame
+import random
 import sys
 
 pygame.init()
+# will use this ro set FPS
 clock = pygame.time.Clock()
 
 
 class Pong:
     def __init__(self):
+        # setting up a window
         self.screen_width = 1080
         self.screen_height = 720
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Pong")
 
+        # color for background and objects
         self.light_grey = (200, 200, 200)
         self.bg_color = pygame.Color('grey12')
 
+        # Game objects
         self.ball = pygame.Rect(self.screen_width / 2 - 15, self.screen_height / 2 - 15, 30, 30)
-        self.player = pygame.Rect(self.screen_width - 20, self.screen_height / 2 - 70, 10, 140)
-        self.opponent = pygame.Rect(10, self.screen_height / 2 - 70, 10, 140)
+        self.player = pygame.Rect(self.screen_width - 20, self.screen_height / 2 - 70, 10, 150)
+        self.opponent = pygame.Rect(10, self.screen_height / 2 - 70, 10, 150)
 
-        self.ball_x_speed = 8 * random.choice((1, -1))
-        self.ball_y_speed = 8 * random.choice((1, -1))
+        # speeds
+        self.ball_x_speed = 7 * random.choice((1, -1))
+        self.ball_y_speed = 7 * random.choice((1, -1))
 
         self.player_speed = 0
-        self.opponent_speed = 6
+        self.opponent_speed = 8
 
         self.player_score = 0
         self.opponent_score = 0
 
+        # will use later in ball animation if opponent or player scored
         self.score_time = True
 
+        # font used for displaying scores and timer
         self.game_font = pygame.font.Font("freesansbold.ttf", 50)
+
+        # some sounds
+        self.ballcol_sound = pygame.mixer.Sound("pong.ogg")
+        self.score_sound = pygame.mixer.Sound("score.ogg")
 
     # drawing player , opponent, ball and a line
     def draw_objects(self):
@@ -52,18 +62,24 @@ class Pong:
 
         # if ball goes out of the frame , change its direction
         if self.ball.top <= 0 or self.ball.bottom >= self.screen_height:
+            pygame.mixer.Sound.play(self.ballcol_sound)
             self.ball_y_speed *= -1
 
+        # player scored
         if self.ball.left <= 0:
+            pygame.mixer.Sound.play(self.score_sound)
             self.score_time = pygame.time.get_ticks()
             self.player_score += 1
 
+        # opponent scored
         if self.ball.right >= self.screen_width:
+            pygame.mixer.Sound.play(self.score_sound)
             self.score_time = pygame.time.get_ticks()
             self.opponent_score += 1
 
         # if ball collides player or opponent , change its direction
         if self.ball.colliderect(self.player) or self.ball.colliderect(self.opponent):
+            pygame.mixer.Sound.play(self.ballcol_sound)
             self.ball_x_speed *= -1
 
     def player_animation(self):
@@ -117,9 +133,9 @@ class Pong:
             self.ball_y_speed = 0
         else:
             # if 2-3 secs are passed make ball move
-            self.ball_x_speed = 8 * random.choice((1, -1))
-            self.ball_y_speed = 8 * random.choice((1, -1))
-            self.score_time = None
+            self.ball_x_speed = 7 * random.choice((1, -1))
+            self.ball_y_speed = 7 * random.choice((1, -1))
+            self.score_time = False
 
     # displaying score
     def print_score(self):
@@ -144,14 +160,14 @@ while running:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                pong.player_speed -= 7
+                pong.player_speed -= 8
             if event.key == pygame.K_DOWN:
-                pong.player_speed += 7
+                pong.player_speed += 8
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
-                pong.player_speed += 7
+                pong.player_speed += 8
             if event.key == pygame.K_DOWN:
-                pong.player_speed -= 7
+                pong.player_speed -= 8
 
     pong.draw_objects()
     pong.ball_animation()
@@ -164,5 +180,11 @@ while running:
         pong.ball_start()
 
     # Updating the entire window
-    pygame.display.flip()
+    pygame.display.update()
+    # 60 FPS
     clock.tick(60)
+
+# more features can be added in feature such as
+# 1. Adding difficulty levels which can be done by changing ball_speed_x and ball_speed_y
+# 2. Adding a menu that will help user to set his name or change difficulty levels
+# 3. adding a actual AI that will play against the player
